@@ -50,7 +50,6 @@ export const HomeClient = () => {
    // Función para manejar el cierre de sesión
    const handleLogout = () => {
     ClienteService.logout(); // Llama al método logout
-    navigate('https://pruebadeploy-production-e0b2.up.railway.app/auth/Login');  // Redirige al usuario a la página de login
   };
 
   return (
@@ -66,7 +65,7 @@ export const HomeClient = () => {
             <NavLink className={'notifications'}>
               <img className='icon_options' src={icon_notification} alt="" />
             </NavLink>
-            <NavLink to='/Login' onClick={handleLogout} className={'logout'}>
+            <NavLink to='https://pruebadeploy-production-e0b2.up.railway.app/Login' onClick={handleLogout} className={'logout'}>
               <img className='icon_logout' src={icon_logout} alt="" />
             </NavLink>
           </div>
