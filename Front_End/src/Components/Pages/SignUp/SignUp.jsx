@@ -3,15 +3,12 @@ import { Header } from '../../Layouts/Header/Header';
 import { Main } from '../../Layouts/Main/Main';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ClienteService from '../../../services/ClienteService';
-import logo from '../../../assets/Images/logo/3.png'
-
 import './SignUp.css';
 
 export const SignUp = () => {
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
-  const [confirmacionContraseña, setConfirmacionContraseña] = useState('');  // Nuevo estado para confirmación
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [error, setError] = useState('');
 
@@ -21,14 +18,8 @@ export const SignUp = () => {
     e.preventDefault();
 
     // Validación básica
-    if (!nombreCompleto || !email || !contraseña || !confirmacionContraseña || !tipoUsuario) {
+    if (!nombreCompleto || !email || !contraseña || !tipoUsuario) {
       setError("Todos los campos son obligatorios");
-      return;
-    }
-
-    // Validar que las contraseñas coincidan
-    if (contraseña !== confirmacionContraseña) {
-      setError("Las contraseñas no coinciden");
       return;
     }
 
@@ -48,7 +39,7 @@ export const SignUp = () => {
   return (
     <div className='signUp'>
       <Header className='header'>
-        <img className='logo' src={logo} alt='img' />
+        <img className='logo' src='/public/3.png' alt='img' />
       </Header>
 
       <Main>
@@ -98,8 +89,6 @@ export const SignUp = () => {
               type='password'
               placeholder=' '
               className='form_input'
-              value={confirmacionContraseña}  // Asignar el estado
-              onChange={(e) => setConfirmacionContraseña(e.target.value)}  // Actualizar el estado
               required
             />
             <span className='form_text'>Confirmar Contraseña</span>

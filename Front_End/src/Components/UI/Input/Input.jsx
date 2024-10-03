@@ -1,3 +1,17 @@
+// import React from 'react'
+// import './Input.css'
+
+
+// export const Input = ({id,className_input,content}) => {
+//   return (
+//     <div className='input'>
+//         <label className='label' htmlFor={id}>{content}</label>
+//         <input className={className_input} id={id} type="text" />
+//     </div>
+//   )
+// }
+
+
 import React from 'react'
 import './Input.css'
 
