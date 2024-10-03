@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom' //router
-import {Welcome} from './Components/Pages/Welcome/Welcome'
+import { Welcome } from './Components/Pages/Welcome/Welcome'
 import { Login } from './Components/Pages/Login/Login'
 import { Guest } from './Components/Pages/Guest/Guest'
 import { SignUp } from './Components/Pages/SignUp/SignUp'
@@ -12,6 +12,10 @@ import { ActualizarGestor } from './Components/Pages/ActualizarPerfil/Actualizar
 import { BuscarCanchas } from './Components/Pages/BuscarCanchas/BuscarCanchas'
 import { HistorialCliente } from './Components/Pages/Historial/HistorialCliente/HistorialCliente'
 import {SoporteCliente} from './Components/Pages/Soporte/SoporteCliente/SoporteCliente'
+import { AdvancedConfiguration } from './Components/Pages/AdvancedConfiguration/AdvancedConfiguration'
+import { ChangePassword } from './Components/Pages/ChangePassword/ChangePassword'
+import { PaymentMethod } from './Components/Pages/PaymentMethod/PaymentMethod'
+import {VerifyEmail} from './Components/Pages/VerifyEmail/VerifyEmail'
 
 import './App.css'
 
@@ -33,8 +37,13 @@ function App() {
       <Route path='/BuscarCanchas' element={<BuscarCanchas />} />
       <Route path='/HistorialCliente' element={<HistorialCliente />} />
       <Route path='/SoporteCliente' element={<SoporteCliente />} />
+      <Route path='/AdvancedConfiguration' element={<AdvancedConfiguration />} />
+      <Route path='/ChangePassword' element={<ChangePassword />} />
+      <Route path='/PaymentMethod' element={<PaymentMethod />} />
+      <Route path='/VerifyEmail' element={<VerifyEmail />} />
 
-
++
+++
 
 
 
