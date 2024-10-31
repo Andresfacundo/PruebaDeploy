@@ -35,9 +35,11 @@ public class ClientControllers {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<UserModels> findById(@PathVariable Long id) {
-        Optional<UserModels> user = this.userRepository.findById(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+        Optional<ClientModels> cliente = this.clientRepository.findById(id);
+        if (cliente.isPresent()) {
+            ClientModels clientModels = cliente.get();
+            UserModels user = clientModels.getUserModels();
+            return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
         }

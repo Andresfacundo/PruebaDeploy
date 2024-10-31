@@ -4,6 +4,8 @@ package com.example.sport_full.controllers;
 import com.example.sport_full.models.AdminModels;
 import com.example.sport_full.models.UserModels;
 import com.example.sport_full.repositories.ICompanyRepository;
+import com.example.sport_full.repositories.IFieldRepository;
+
 import com.example.sport_full.repositories.IUserRepository;
 import com.example.sport_full.services.AdminServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,18 @@ public class AdminControllers {
     ICompanyRepository companyRepository;
 
     @Autowired
+    IFieldRepository fieldRepository;
+
+    @Autowired
     IUserRepository userRepository;
+
+
 
     @Autowired
     AdminServices adminServices;
+
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<UserModels> updateAdmin(@PathVariable("id") Long id, @RequestBody UserModels userModels) {
@@ -41,7 +51,6 @@ public class AdminControllers {
         }
     }
 
-    // PATCH actualización parcial
     @PatchMapping("/update/{id}")
     public ResponseEntity<UserModels> patchUpdateAdmin(@PathVariable("id") Long userId, @RequestBody UserModels userModels) {
         Optional<UserModels> existingUserOpt = userRepository.findById(userId);
@@ -69,43 +78,61 @@ public class AdminControllers {
             }
 
             // Actualiza solo los campos de AdminModels que vienen en la solicitud
-                if (userModels.getAdminModels() != null) {
-                    AdminModels adminModels = userModels.getAdminModels();
+            if (userModels.getAdminModels() != null) {
+                AdminModels adminModels = userModels.getAdminModels();
 
-                    if (adminModels.getNIT() != null) {
-                        existingUser.getAdminModels().setNIT(adminModels.getNIT());
-                    }
-
-                    if (adminModels.getNombreEmpresa() != null) {
-                        existingUser.getAdminModels().setNombreEmpresa(adminModels.getNombreEmpresa());
-                    }
-
-                    if (adminModels.getTelefonoEmpresa() != null) {
-                        existingUser.getAdminModels().setTelefonoEmpresa(adminModels.getTelefonoEmpresa());
-                    }
-
-                    if (adminModels.getEmailEmpresa() != null) {
-                        existingUser.getAdminModels().setEmailEmpresa(adminModels.getEmailEmpresa());
-                    }
-
-                    if (adminModels.getDireccionEmpresa() != null) {
-                        existingUser.getAdminModels().setDireccionEmpresa(adminModels.getDireccionEmpresa());
-                    }
-
-                    if (adminModels.getCCpropietario() != null) {
-                        existingUser.getAdminModels().setCCpropietario(adminModels.getCCpropietario());
-
-                    }
-
-                    if (adminModels.getTelefonoPropietario() != null) {
-                        existingUser.getAdminModels().setTelefonoPropietario(adminModels.getTelefonoPropietario());
-                    }
-
-                    if (adminModels.getEmailPropietario() != null) {
-                        existingUser.getAdminModels().setEmailPropietario(adminModels.getEmailPropietario());
-                    }
-
+                if (adminModels.getNIT() != null) {
+                    existingUser.getAdminModels().setNIT(adminModels.getNIT());
                 }
+
+                if (adminModels.getNombreEmpresa() != null) {
+                    existingUser.getAdminModels().setNombreEmpresa(adminModels.getNombreEmpresa());
+                }
+
+                if (adminModels.getTelefonoEmpresa() != null) {
+                    existingUser.getAdminModels().setTelefonoEmpresa(adminModels.getTelefonoEmpresa());
+                }
+
+                if (adminModels.getEmailEmpresa() != null) {
+                    existingUser.getAdminModels().setEmailEmpresa(adminModels.getEmailEmpresa());
+                }
+
+                if (adminModels.getDireccionEmpresa() != null) {
+                    existingUser.getAdminModels().setDireccionEmpresa(adminModels.getDireccionEmpresa());
+                }
+
+                if (adminModels.getCCpropietario() != null) {
+                    existingUser.getAdminModels().setCCpropietario(adminModels.getCCpropietario());
+                }
+
+                if (adminModels.getTelefonoPropietario() != null) {
+                    existingUser.getAdminModels().setTelefonoPropietario(adminModels.getTelefonoPropietario());
+                }
+
+                if (adminModels.getFacebook() != null) {
+                    existingUser.getAdminModels().setFacebook(adminModels.getFacebook());
+                }
+
+                if (adminModels.getWhatsApp() != null) {
+                    existingUser.getAdminModels().setWhatsApp(adminModels.getWhatsApp());
+                }
+
+                if (adminModels.getInstagram() != null) {
+                    existingUser.getAdminModels().setInstagram(adminModels.getInstagram());
+                }
+
+                // Actualiza o agrega los servicios generales sin duplicados
+                if (adminModels.getServiciosGenerales() != null) {
+                    List<String> existingServicios = existingUser.getAdminModels().getServiciosGenerales();
+
+                    for (String nuevoServicio : adminModels.getServiciosGenerales()) {
+                        if (!existingServicios.contains(nuevoServicio)) {
+                            existingServicios.add(nuevoServicio);
+                        }
+                    }
+                }
+            }
+
             // Guarda los cambios en la base de datos
             userRepository.save(existingUser);
             return ResponseEntity.ok(existingUser);
@@ -114,7 +141,6 @@ public class AdminControllers {
         }
     }
 
-
     @GetMapping("/find-all")
     public List<AdminModels> findAll() {
         return companyRepository.findAll();
@@ -122,13 +148,20 @@ public class AdminControllers {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<UserModels> findById(@PathVariable("id") Long id) {
-        Optional<UserModels> existingUser = this.adminServices.getUser(id);
-        if (existingUser.isPresent()) {
-            return ResponseEntity.ok(existingUser.get());
+        Optional<AdminModels> existingAdmin = this.companyRepository.findById(id);
+        if (existingAdmin.isPresent()) {
+            AdminModels admin = existingAdmin.get();
+
+            // Asumiendo que AdminModels tiene un método para obtener el UserModels asociado
+            UserModels user = admin.getUserModels();
+
+            // Aquí podrías personalizar la respuesta si necesitas algún formato específico
+            return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<String> patchAdmin(@PathVariable("id") Long id) {

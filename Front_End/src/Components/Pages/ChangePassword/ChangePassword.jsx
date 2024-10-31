@@ -5,6 +5,9 @@ import { Header } from '../../Layouts/Header/Header';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ClienteService from '../../../services/ClienteService';
 
+import NavBar from '../../UI/NavBar/NavBar'
+
+
 export const ChangePassword = () => {
   const backgroundStyle = {
     backgroundImage: `url(${fondo_long})`,
@@ -18,7 +21,14 @@ export const ChangePassword = () => {
   // const [tipoUsuario, setTipoUsuario]=useState('')
   const [confirmacionContraseña, setConfirmacionContraseña] = useState('');
 
+  // Para controlar la visibilidad de la contraseña
+  const [showPassword, setShowPassword] = useState(false); 
+  // Para controlar la visibilidad de la confirmación
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+
   const [error, setError] = useState('');
+  
+
   const navigate = useNavigate();
 
 
@@ -90,6 +100,31 @@ export const ChangePassword = () => {
               console.log(error);
               setError("Ocurrió un error al actualizar la contraseña. Inténtalo de nuevo.");
             });
+
+    }else if (tipoUsuario==='GESTOR') {
+            // Llama al servicio para actualizar el usuario
+            ClienteService.updateGestor(userId, updatedUser)
+            .then((response) => {
+              console.log(response.data);
+    
+              // Actualiza el objeto user en localStorage con la nueva contraseña
+              const newUser = {
+                ...user,
+                
+                contraseña
+              };
+    
+              // Guardar el objeto actualizado en localStorage
+              localStorage.setItem('user', JSON.stringify(newUser));
+    
+              // Redirigir a la página de actualización de cliente
+              navigate('/ActualizarGestor');
+            })
+            .catch((error) => {
+              console.log(error);
+              setError("Ocurrió un error al actualizar la contraseña. Inténtalo de nuevo.");
+            });
+
     }
 
   };
@@ -100,27 +135,53 @@ export const ChangePassword = () => {
       <main>
         <h2 className='tittle_update'>Cambiar Contraseña</h2>
         <form onSubmit={savePassword} className='form-update'>
-          <label className='form_label'>
+
+           {/* Input de nueva contraseña */}
+           <label className='form_label'>
             <input
-              type='password' // Cambié el tipo a 'password' para ocultar la entrada
+              type={showPassword ? 'text' : 'password'}
+
               placeholder=' '
               className='form_input'
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
             />
             <span className='form_text'>Nueva Contraseña</span>
+
+            {/* Mostrar el ícono solo si hay algo escrito */}
+            {contraseña && (
+              <span 
+                className="password-toggle-icon" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ cursor: 'pointer', position: 'absolute', right: '5%', top: '30%', zIndex: '1000' }}
+              >
+                <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
+              </span>
+            )}
           </label>
 
-          <label className='form_label'>
+           {/* Input de confirmar contraseña */}
+           <label className='form_label'>
             <input
-              type='password'
+              type={showConfirmPassword ? 'text' : 'password'}
               placeholder=' '
               className='form_input'
-              value={confirmacionContraseña}  // Asignar el estado
-              onChange={(e) => setConfirmacionContraseña(e.target.value)}  // Actualizar el estado
+              value={confirmacionContraseña}
+              onChange={(e) => setConfirmacionContraseña(e.target.value)}
               required
             />
             <span className='form_text'>Confirmar Contraseña</span>
+            {/* Mostrar el ícono solo si hay algo escrito */}
+            {confirmacionContraseña && (
+              <span 
+                className="password-toggle-icon" 
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                style={{ cursor: 'pointer', position: 'absolute', right: '5%', top: '30%', zIndex: '1000' }}
+              >
+                <i className={showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
+              </span>
+            )}
+
           </label>
 
           {error && <p className="error_message">{error}</p>} {/* Mostrar mensaje de error si ocurre */}
@@ -135,6 +196,10 @@ export const ChangePassword = () => {
           <NavLink className='return' to='/AdvancedConfiguration'>Volver</NavLink>
         </form>
       </main>
+
+      <footer>
+        <NavBar/>
+      </footer>
     </div>
   );
 };
