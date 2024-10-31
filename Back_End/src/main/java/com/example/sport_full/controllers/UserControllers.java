@@ -54,9 +54,8 @@ public class UserControllers {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> registry(@RequestBody UserModels userModels, HttpServletResponse response) {
+    public ResponseEntity<?> registry(@RequestBody UserModels userModels) {
         try {
-            response.setHeader("Access-Control-Allow-Origin", "https://prueba-deploy-ten.vercel.app");
             // Validaciones del usuario
             userValidations.validate(userModels);
 
