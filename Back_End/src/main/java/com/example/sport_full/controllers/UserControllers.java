@@ -13,6 +13,7 @@ import com.example.sport_full.models.UserModels;
 import com.example.sport_full.services.EmailServices;
 import com.example.sport_full.services.VerificationsEmailServices;
 import com.example.sport_full.validations.UserValidations;
+import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,8 +54,9 @@ public class UserControllers {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> registry(@RequestBody UserModels userModels) {
+    public ResponseEntity<?> registry(@RequestBody UserModels userModels, HttpServletResponse response) {
         try {
+            response.setHeader("Access-Control-Allow-Origin", "https://prueba-deploy-ten.vercel.app");
             // Validaciones del usuario
             userValidations.validate(userModels);
 
