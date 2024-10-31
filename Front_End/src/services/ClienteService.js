@@ -23,7 +23,7 @@ class ClienteService {
     // Actualizar los datos del cliente
     updateClient(id, updatedUser) {
         const token = localStorage.getItem('token'); // Obtén el token de autenticación
-        return axios.patch(`http://localhost:8080/client/update/${id}`, updatedUser, {
+        return axios.patch(`https://pruebadeploy-a5rs.onrender.com/client/update/${id}`, updatedUser, {
             headers: {
                 'Authorization': `Bearer ${token}` // Incluye el token en el encabezado
             }
@@ -33,7 +33,7 @@ class ClienteService {
     // Actualizar los datos del empresa
     updateCompany(id, updatedUser) {
         const token = localStorage.getItem('token'); // Obtén el token de autenticación
-        return axios.patch(`http://localhost:8080/admin/update/${id}`, updatedUser, {
+        return axios.patch(`https://pruebadeploy-a5rs.onrender.com/admin/update/${id}`, updatedUser, {
             headers: {
                 'Authorization': `Bearer ${token}` // Incluye el token en el encabezado
             }
@@ -43,7 +43,7 @@ class ClienteService {
     //Actualizar datos del Gestor
     updateGestor(id, updatedUser) {
         const token = localStorage.getItem('token'); // Obtén el token de autenticación
-        return axios.patch(`http://localhost:8080/admin/gestor/update/${id}`, updatedUser, {
+        return axios.patch(`https://pruebadeploy-a5rs.onrender.com/admin/gestor/update/${id}`, updatedUser, {
             headers: {
                 'Authorization': `Bearer ${token}` // Incluye el token en el encabezado
             }
@@ -57,19 +57,19 @@ class ClienteService {
 
     // Método para validar la contraseña
     validatePassword(id, data) {
-        return axios.post(`http://localhost:8080/security?idUser=${id}`, data);
+        return axios.post(`https://pruebadeploy-a5rs.onrender.com/security?idUser=${id}`, data);
     }
 
     // Actualiza este método para enviar los servicios seleccionados en el cuerpo de la solicitud
     createField(cancha, empresaId) {
         // Asegúrate de pasar `selectedServices` en el cuerpo junto con los demás datos
-        return axios.post(`http://localhost:8080/fields/create?empresaId=${empresaId}`, cancha);
+        return axios.post(`https://pruebadeploy-a5rs.onrender.com/fields/create?empresaId=${empresaId}`, cancha);
     }
 
     // Eliminar una cancha
     deleteField(fieldId, empresaId) {
         const token = localStorage.getItem('token'); // Obtén el token de autenticación
-        return axios.delete(`http://localhost:8080/fields/delete`, {
+        return axios.delete(`https://pruebadeploy-a5rs.onrender.com/fields/delete`, {
             headers: {
                 'Authorization': `Bearer ${token}` // Incluye el token en el encabezado
             },
@@ -83,7 +83,7 @@ class ClienteService {
     // Método para actualizar una cancha
     updateField(fieldId, updatedField, empresaId) {
         const token = localStorage.getItem('token'); // Obtén el token de autenticación
-        return axios.put(`http://localhost:8080/fields/update`, updatedField, {
+        return axios.put(`https://pruebadeploy-a5rs.onrender.com/fields/update`, updatedField, {
             headers: {
                 'Authorization': `Bearer ${token}` // Incluye el token en el encabezado
             },
@@ -96,7 +96,7 @@ class ClienteService {
 
     // Método para consultar cancha por ID
     getFieldById(fieldId) {
-        return axios.get(`http://localhost:8080/fields/findById/${fieldId}`);
+        return axios.get(`https://pruebadeploy-a5rs.onrender.com/fields/findById/${fieldId}`);
     }
 
 }
