@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@CrossOrigin(origins = "https://prueba-deploy-ten.vercel.app")
+@CrossOrigin
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
