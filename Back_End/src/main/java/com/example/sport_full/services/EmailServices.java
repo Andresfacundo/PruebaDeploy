@@ -21,7 +21,7 @@ public class EmailServices {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("Verificación de Correo");
-        message.setText("Para verificar tu correo, por favor haz clic en el siguiente enlace: "
+        message.setText("Para verificar tu correo: "
                 + "https://pruebadeploy-a5rs.onrender.com/auth/verify?token=" + verificationToken);
         mailSender.send(message);
     }
